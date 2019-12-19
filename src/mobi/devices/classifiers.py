@@ -4,7 +4,7 @@ from __future__ import division
 from builtins import str
 from builtins import object
 from past.utils import old_div
-from zope.interface import implements
+from zope.interface import implementer
 
 from mobi.interfaces.devices import IClassifier, IBasicDeviceType
 from mobi.devices.device import MITDevice
@@ -27,7 +27,7 @@ except ImportError:
 
 
 class WurflClassifier(object):
-    implements(IClassifier)
+    implementer(IClassifier)
 
     def __init__(self, conf=None):
         self.db, self.index = initialize_db(conf)
@@ -116,7 +116,7 @@ class MITUAPatternMatcher(object):
 
 
 class MITClassifier(object):
-    implements(IClassifier)
+    implementer(IClassifier)
 
     def __init__(self):
         self.patterns = MITUAPatternMatcher()

@@ -2,13 +2,13 @@
 # See also LICENSE.txt.
 from builtins import str
 from builtins import object
-from zope.interface import implements
+from zope.interface import implementer
 from mobi.interfaces.devices import (IDevice,
     IStandardDeviceType, IAdvancedDeviceType, IBasicDeviceType)
 
 
 class Device(object):
-    implements(IDevice)
+    implementer(IDevice)
 
     def __init__(self, user_agent, type_, platform=u"computer"):
         self.user_agent = user_agent
@@ -17,7 +17,7 @@ class Device(object):
 
 
 class MITDevice(object):
-    implements(IDevice)
+    implementer(IDevice)
 
     def __init__(self, user_agent, info):
         self.user_agent = user_agent

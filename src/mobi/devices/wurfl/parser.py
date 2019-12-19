@@ -5,7 +5,7 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import object
 from xml.sax.handler import ContentHandler
-from zope.interface import implements
+from zope.interface import implementer
 from mobi.interfaces.devices import (IDevice,
     IBasicDeviceType, IStandardDeviceType, IAdvancedDeviceType)
 from mobi.devices.wurfl.platforms import PLATFORMS
@@ -15,7 +15,7 @@ import pickle as pickle
 class Device(object):
     """ A wurfl device object
     """
-    implements(IDevice)
+    implementer(IDevice)
     db = None
 
     # parent resolve method
