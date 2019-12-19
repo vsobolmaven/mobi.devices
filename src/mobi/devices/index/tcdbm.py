@@ -14,7 +14,7 @@ error = tc.Error
 library = 'Tokyo cabinet'
 logger = logging.getLogger('mobi.devices')
 
-def open(filename, flag='r', mode=0666):
+def open(filename, flag='r', mode=0o666):
     # XXX: implement mode
     rfilename = filename + '.tch'
     tcflags = tc.HDBOLCKNB
@@ -31,7 +31,7 @@ def open(filename, flag='r', mode=0666):
         db = TCDBMWrapper()
         db.open(rfilename, tcflags)
         return db
-    except tc.Error, e:
+    except tc.Error as e:
         logger.error(
             u'Enable to create storage for wurfl cache : %s', e.message)
         raise

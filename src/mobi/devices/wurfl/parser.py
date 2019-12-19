@@ -1,11 +1,15 @@
 # Copyright (c) 2010 Infrae. All rights reserved.
 # See also LICENSE.txt.
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import object
 from xml.sax.handler import ContentHandler
 from zope.interface import implements
 from mobi.interfaces.devices import (IDevice,
     IBasicDeviceType, IStandardDeviceType, IAdvancedDeviceType)
 from mobi.devices.wurfl.platforms import PLATFORMS
-import cPickle as pickle
+import pickle as pickle
 
 
 class Device(object):
@@ -58,7 +62,7 @@ class Device(object):
                 return self.__platform
 
         if self.get_capability('is_wireless_device') == u'true':
-            platform_names = PLATFORMS.keys()
+            platform_names = list(PLATFORMS.keys())
             os = str(self.get_capability('device_os')).lower()
             if os:
                 for name in platform_names:

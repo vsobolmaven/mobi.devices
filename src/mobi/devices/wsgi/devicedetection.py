@@ -1,5 +1,7 @@
 # Copyright (c) 2010 Infrae. All rights reserved.
 # See also LICENSE.txt.
+from builtins import str
+from builtins import object
 from webob import Request
 
 from mobi.devices.classifiers import MITClassifier, WurflClassifier
@@ -28,7 +30,7 @@ def serialize_cookie(data):
 def deserialize_cookie(data):
     try:
         return json.loads(base64.b64decode(data) or '{}')
-    except (Exception,), e:
+    except (Exception,) as e:
         logger.warn('Error while deserializing cookie: %s', str(e))
         return None
 
@@ -57,7 +59,7 @@ class MobiDeviceMiddleware(object):
     }
 
     mapping = dict(_mapping)
-    reverse_mapping = dict(map(lambda (a,b,): (b,a,), _mapping))
+    reverse_mapping = dict([(a_b[1],a_b[0],) for a_b in _mapping])
 
     def __init__(self, app,
                  cookie_cache=True,
@@ -99,7 +101,7 @@ class MobiDeviceMiddleware(object):
 
             start_response(
                 response.status,
-                [a for a in response.headers.iteritems()])
+                [a for a in response.headers.items()])
             return response.app_iter
         return self.app(environ, start_response)
 
@@ -189,7 +191,7 @@ def device_middleware_filter_factory(global_conf, **local_conf):
         cookie_max_age = int(local_conf.get('cookie_max_age', 0))
         cookie_cache = local_conf.get('cookie_cache', not(debug))
         cache_options = {}
-        for key, value in local_conf.iteritems():
+        for key, value in local_conf.items():
             if key.startswith('cache'):
                 cache_options[key] = value
 

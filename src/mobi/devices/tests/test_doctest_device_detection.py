@@ -85,6 +85,7 @@
 """
 
 
+from builtins import object
 class TestApp(object):
     """ it only sets the environ attribute. So we can verify some expectations
     on it.

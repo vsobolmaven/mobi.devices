@@ -1,5 +1,7 @@
 # Copyright (c) 2010 Infrae. All rights reserved.
 # See also LICENSE.txt.
+from builtins import str
+from builtins import object
 from webob import Request
 import logging
 import re
@@ -46,7 +48,7 @@ class RouterMiddleware(object):
 
     def _parse_config(self, config_map):
         config = {}
-        for normal_host, mobile_host in config_map.iteritems():
+        for normal_host, mobile_host in config_map.items():
             if mobile_host.startswith('http://')\
                     or mobile_host.startswith('https://'):
                 config[normal_host] = mobile_host

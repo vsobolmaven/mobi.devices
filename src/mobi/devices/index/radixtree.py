@@ -1,5 +1,8 @@
+from __future__ import print_function
 # Copyright (c) 2010 Infrae. All rights reserved.
 # See also LICENSE.txt.
+from builtins import str
+from builtins import object
 import bisect
 
 
@@ -48,8 +51,8 @@ class Node(object):
         return self.infix < other.infix
 
     def display(self, indent=0):
-        print "%s|" % (" " * (indent))
-        print "%s+--+ '%s' | %s" % (" " * indent, self.infix, str(self.value))
+        print("%s|" % (" " * (indent)))
+        print("%s+--+ '%s' | %s" % (" " * indent, self.infix, str(self.value)))
         for child in (self.children or []):
             child.display(indent=indent + 3)
 
@@ -86,7 +89,7 @@ class Node(object):
             yield self.value
         if self.children:
             for child in self.children:
-                for value in child.values():
+                for value in list(child.values()):
                     yield value
  
     def search(self, string, buf='', pos=0):

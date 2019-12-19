@@ -1,5 +1,7 @@
 # Copyright (c) 2010 Infrae. All rights reserved.
 # See also LICENSE.txt.
+from future import standard_library
+standard_library.install_aliases()
 from xml.sax import make_parser
 from mobi.devices.wurfl.parser import Device, WURFLContentHandler
 from mobi.devices.index.radixtree import RadixTree
@@ -21,12 +23,12 @@ except ImportError:
     # non posix platfroms
     try:
         logger.info('tokyo cabinet dbm not found try with dbm.')
-        import dbm
+        import dbm.ndbm
         logger.info('dbm found.')
     except ImportError:
         logger.info('dbm not found import gdbm')
         try:
-            import gdbm as dbm
+            import dbm.gnu as dbm
         except ImportError:
             logger.info('gdbm not found import anydbm')
             import anydbm as dbm
@@ -44,7 +46,7 @@ def initialize_db(config=None):
     local_config = DEFAULTS.copy()
     if config is not None:
         local_config.update(config)
-    if not local_config.has_key('var'):
+    if 'var' not in local_config:
         raise ValueError('no storage directory ("var"), defined')
     dbfilename = os.path.join(local_config['var'], 'devices')
     return open_or_create(dbfilename, local_config['wurfl_file'])
@@ -52,7 +54,7 @@ def initialize_db(config=None):
 def open_or_create(filename, wurfl_file):
 
     def open_db(mode):
-        db = dbm.open(filename, mode)
+        db = dbm.ndbm.open(filename, mode)
         Device.db = db
         return db
 

@@ -1,5 +1,7 @@
 # Copyright (c) 2010 Infrae. All rights reserved.
 # See also LICENSE.txt.
+from builtins import str
+from builtins import object
 from zope.interface import implements
 from mobi.interfaces.devices import (IDevice,
     IStandardDeviceType, IAdvancedDeviceType, IBasicDeviceType)
@@ -11,7 +13,7 @@ class Device(object):
     def __init__(self, user_agent, type_, platform=u"computer"):
         self.user_agent = user_agent
         self.type = type_
-        self.platform = unicode(platform)
+        self.platform = str(platform)
 
 
 class MITDevice(object):
@@ -34,6 +36,6 @@ class MITDevice(object):
         return None
 
     def _get_platform(self):
-        return unicode(self.info.get('platform', ''))
+        return str(self.info.get('platform', ''))
 
 

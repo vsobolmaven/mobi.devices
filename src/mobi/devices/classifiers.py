@@ -1,5 +1,9 @@
+from __future__ import division
 # Copyright (c) 2010 Infrae. All rights reserved.
 # See also LICENSE.txt.
+from builtins import str
+from builtins import object
+from past.utils import old_div
 from zope.interface import implements
 
 from mobi.interfaces.devices import IClassifier, IBasicDeviceType
@@ -40,10 +44,10 @@ class WurflClassifier(object):
         dev_id = node.value
 
         if dev_id is NOTSET:
-            ratio = matchlen / len(user_agent)
+            ratio = old_div(matchlen, len(user_agent))
             if matchlen < 18 and ratio < 0.8:
                 return None
-            dev_id = node.values().next()
+            dev_id = next(list(node.values()))
 
         device = WDevice.deserialize(self.db[dev_id])
         return device
@@ -122,7 +126,7 @@ class MITClassifier(object):
         device_infos = self.patterns.lookup(user_agent)
         if device_infos is None:
             return None
-        return MITDevice(unicode(user_agent), device_infos)
+        return MITDevice(str(user_agent), device_infos)
 
 
 # USE FOR TEST PURPOSE ONLY
@@ -132,5 +136,5 @@ def get_device(ua):
     if device is None:
         device = WurflClassifier(None)(ua)
     if device is None:
-        device = Device(unicode(ua), IBasicDeviceType)
+        device = Device(str(ua), IBasicDeviceType)
     return device
